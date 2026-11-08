@@ -17,26 +17,26 @@
 
 ## 0. Ключевые решения (до старта)
 
-- [ ] **P0** Версия: Godot 4.4+ (последняя стабильная 4.x)
-- [ ] **P0** Язык: **GDScript**, если нужен веб-экспорт (паритет с веб-версией). ⚠️ C# (.NET-сборка Godot 4) **не экспортируется в Web** — взять C# только если целимся исключительно в десктоп
-- [ ] **P0** Рендерер: **Compatibility (WebGL2)** — если нужен веб; **Forward+** — если только десктоп (лучше тени и пост-эффекты). Решение влияет на всё дальше
-- [ ] **P1** Репозиторий: `.gitignore` (`.godot/`, экспорт-артефакты), README, ветка-разработка
-- [ ] **P1** Структура папок: `scenes/`, `scripts/`, `resources/`, `ui/`, `assets/{models,textures,audio,fonts}`, `tests/`
-- [ ] **P1** Пайплайн моделей: Blender → glTF (`.glb`) → импорт в Godot; 1 unit = 1 метр, ось Y вверх; нейминг `part_*.glb`
+- [x] **P0** Версия: Godot 4.4+ (установлена 4.7.2 стабильная)
+- [x] **P0** Язык: **GDScript**, если нужен веб-экспорт (паритет с веб-версией). ⚠️ C# (.NET-сборка Godot 4) **не экспортируется в Web** — взять C# только если целимся исключительно в десктоп
+- [x] **P0** Рендерер: **Compatibility (WebGL2)** — если нужен веб; **Forward+** — если только десктоп (лучше тени и пост-эффекты). Решение влияет на всё дальше → **выбран Forward+** (десктоп-цель)
+- [x] **P1** Репозиторий: `.gitignore` (`.godot/`, экспорт-артефакты), README, ветка-разработка (`main` → `dev`)
+- [x] **P1** Структура папок: `scenes/`, `scripts/`, `resources/`, `ui/`, `assets/{models,textures,audio,fonts}`, `tests/`
+- [x] **P1** Пайплайн моделей: glTF (`.glb`) → импорт в Godot (файлы — `assets/models/`, исходные FBX — `models/fbx/`). ⚠️ отступление: масштаб и имена оставлены как в веб-выгрузке (1:1, `mobo.glb`, не `part_*.glb`) — раскладка повторяет референс
 - [ ] **P2** Референсы арта: скриншоты веб-версии (`download/case-check/*.png`, `download/drag-check/*.png`) как эталон раскладки и палитры
 
 ## 1. Каркас и архитектура (веха M0)
 
-- [ ] **P0** `Main.tscn`: `World3D` (Environment, свет, комната) + `Bench` (верстак) + `Tray` (лоток деталей) + `Case` (корпус) + `Parts` + `CameraRig` + `UILayer (CanvasLayer)`
-- [ ] **P0** Автолоад `GameState` — текущий шаг, фазы `explore/install`, флаги; аналог state machine из `simulator.tsx`
-- [ ] **P0** Автолоад `EventBus` — сигналы: `part_installed(part_id)`, `step_changed(step_id)`, `part_rejected(reason)`, `assembly_completed`
-- [ ] **P0** Enum шагов 0–7: `MOBO → CPU → COOLER → RAM → SSD → MOBO_TO_CASE → PSU_TO_CASE → GPU → DONE` (id как в веб-версии: `step-mobo`, `step-cpu`, …)
-- [ ] **P0** Кастомные `Resource`:
+- [x] **P0** `Main.tscn`: `World3D` (Environment, свет, комната) + `Bench` (верстак) + `Tray` (лоток деталей) + `Case` (корпус) + `Parts` + `CameraRig` + `UILayer (CanvasLayer)`
+- [x] **P0** Автолоад `GameState` — текущий шаг, фазы `explore/install`, флаги; аналог state machine из `simulator.tsx`
+- [x] **P0** Автолоад `EventBus` — сигналы: `part_installed(part_id)`, `step_changed(step_id)`, `part_rejected(reason)`, `assembly_completed`
+- [x] **P0** Enum шагов 0–7: `MOBO → CPU → COOLER → RAM → SSD → MOBO_TO_CASE → PSU_TO_CASE → GPU → DONE` (id как в веб-версии: `step-mobo`, `step-cpu`, …)
+- [x] **P0** Кастомные `Resource`:
   - `LessonStep`: `id, kind (explore|install), part_id, slot_id, alt_targets, title, task, place_task, wrong_part, wrong_slot, extra_hint, focus: Vector3, cam: Vector3` — прямой порт `lessons.ts`
   - `PartInfo`: `name, description, fact, kind` — порт `parts.ts`
   - Словари `SLOT_LABELS` и `SLOT_TO_PART` (6 слотов: сокет, DDR5, M.2, PCIe x16, отсек БП, место платы)
   - Хранить как `.tres` — правка текстов без кода
-- [ ] **P2** Задел локализации: все строки через `tr()` (пока только русский)
+- [x] **P2** Задел локализации: все строки через `tr()` (пока только русский)
 
 ## 2. Сцена и ассеты
 

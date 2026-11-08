@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LessonSequence" format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_sequence.gd" id="1_72xxk"]
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="2_d47cl"]
+[ext_resource type="Resource" path="res://resources/lessons/step-mobo.tres" id="3_r7j85"]
+[ext_resource type="Resource" path="res://resources/lessons/step-cpu.tres" id="4_d0y8e"]
+[ext_resource type="Resource" path="res://resources/lessons/step-cooler.tres" id="5_irnd6"]
+[ext_resource type="Resource" path="res://resources/lessons/step-ram.tres" id="6_ca2oi"]
+[ext_resource type="Resource" path="res://resources/lessons/step-ssd.tres" id="7_jb6qe"]
+[ext_resource type="Resource" path="res://resources/lessons/step-mobo-case.tres" id="8_ihakb"]
+[ext_resource type="Resource" path="res://resources/lessons/step-psu.tres" id="9_vu3m3"]
+[ext_resource type="Resource" path="res://resources/lessons/step-gpu.tres" id="10_asxv6"]
+
+[resource]
+script = ExtResource("1_72xxk")
+steps = Array[ExtResource("2_d47cl")]([ExtResource("3_r7j85"), ExtResource("4_d0y8e"), ExtResource("5_irnd6"), ExtResource("6_ca2oi"), ExtResource("7_jb6qe"), ExtResource("8_ihakb"), ExtResource("9_vu3m3"), ExtResource("10_asxv6")])

@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.93, 0.95, 0.92, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(34, 0.2, 22)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_back"]
+size = Vector3(34, 12, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_left"]
+size = Vector3(0.3, 12, 22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.85, 0.87, 0.83, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_color = Color(0.91, 0.93, 0.89, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ceiling_beam"]
+size = Vector3(34, 0.4, 0.4)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.9076, -0.6109, 0)
+light_energy = 1.1
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="FillLight" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.5236, 2.5307, 0)
+light_energy = 0.4
+shadow_enabled = false
+
+[node name="Room" type="Node3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Room"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="BackWall" type="MeshInstance3D" parent="Room"]
+position = Vector3(0, 6, -11)
+mesh = SubResource("BoxMesh_wall_back")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="LeftWall" type="MeshInstance3D" parent="Room"]
+position = Vector3(-17, 6, 0)
+mesh = SubResource("BoxMesh_wall_left")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CeilingBeam" type="MeshInstance3D" parent="Room"]
+position = Vector3(0, 11.8, -10.6)
+mesh = SubResource("BoxMesh_ceiling_beam")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="Bench" type="Node3D" parent="."]
+
+[node name="Tray" type="Node3D" parent="."]
+
+[node name="Case" type="Node3D" parent="."]
+
+[node name="Parts" type="Node3D" parent="."]
+
+[node name="CameraRig" type="Node3D" parent="."]
+position = Vector3(0, 0, 0)
+
+[node name="Yaw" type="Node3D" parent="CameraRig"]
+
+[node name="Pitch" type="Node3D" parent="CameraRig/Yaw"]
+rotation = Vector3(-0.35, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/Yaw/Pitch"]
+position = Vector3(0, 0, 16)
+fov = 55.0
+near = 0.1
+
+[node name="UILayer" type="CanvasLayer" parent="."]

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LessonStep" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "step-ssd"
+kind = 1
+part_id = "ssd"
+slot_id = "slot-m2"
+alt_targets = PackedStringArray()
+title = "Накопитель M.2"
+task = "Выбери на лотке накопитель — маленькую чёрную планку с наклейкой — и перетащи его к плате."
+place_task = "Тяни накопитель к подсвеченному слоту M.2 — он правее и ниже сокета, у края платы."
+wrong_part = "Нужен накопитель M.2 — маленькая чёрная планка на лотке. Она подсвечена."
+wrong_slot = "SSD формата M.2 устанавливается в свой маленький горизонтальный слот — он подсвечен на плате."
+extra_hint = "M.2 2280 — это размеры: 22 мм ширины и 80 мм длины. Накопитель фиксируется одним крошечным винтом."
+focus = Vector3(-2.6, 2, 3.7)
+cam = Vector3(0, 0, 0)

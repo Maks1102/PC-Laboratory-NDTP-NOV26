@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LessonStep" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "step-ram"
+kind = 1
+part_id = "ram"
+slot_id = "slot-ram"
+alt_targets = PackedStringArray()
+title = "Оперативная память"
+task = "Выбери на лотке планки памяти — две узкие полоски с серебристыми радиаторами — и перетащи их к плате (они переносятся парой)."
+place_task = "Тяни планки к подсвеченным слотам справа от сокета — они сами встанут во 2-й и 4-й слоты."
+wrong_part = "Нужны планки оперативной памяти — узкие полоски на лотке. Они подсвечены."
+wrong_slot = "Память ставится в подсвеченные слоты DDR5 — 2-й и 4-й. Так работает двухканальный режим!"
+extra_hint = "Планки ставят во 2-й и 4-й слоты (A2 и B2) — в двухканальном режиме пропускная способность памяти удваивается."
+focus = Vector3(-0.4, 2.4, -0.8)
+cam = Vector3(0, 0, 0)

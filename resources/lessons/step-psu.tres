@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LessonStep" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "step-psu"
+kind = 1
+part_id = "psu"
+slot_id = "slot-psu"
+alt_targets = PackedStringArray()
+title = "Блок питания"
+task = "Выбери на лотке блок питания — куб с наклейкой «750 Вт» — и перетащи его к корпусу."
+place_task = "Тяни блок питания к подсвеченному отсеку в глубине корпуса, у самого дна."
+wrong_part = "Нужен блок питания — серый куб с вентилятором на лотке. Он подсвечен."
+wrong_slot = "БП устанавливается в нижний отсек у задней стенки корпуса — он подсвечен."
+extra_hint = "БП берут с запасом 30–40%: нашей системе нужно около 450 Вт, поэтому ставят 750 Вт — меньше нагрев, тише вентилятор и простор для апгрейда. Провода тянутся к плате через отверстия в кожухе."
+focus = Vector3(16, -2.5, 2)
+cam = Vector3(4, 11, 28)

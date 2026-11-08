@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LessonStep" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "step-mobo"
+kind = 0
+part_id = "mobo"
+slot_id = ""
+alt_targets = PackedStringArray()
+title = "Материнская плата"
+task = "Осмотрись на верстаке и нажми на большую зелёную плату — это материнская плата, фундамент будущего компьютера. Рядом на полу уже ждёт корпус."
+place_task = ""
+wrong_part = ""
+wrong_slot = ""
+extra_hint = "Сборка начинается на верстаке: так удобнее установить процессор и память. В корпус плата переедет позже, уже с ними."
+focus = Vector3(-0.8, 1.4, 0.6)
+cam = Vector3(0, 0, 0)

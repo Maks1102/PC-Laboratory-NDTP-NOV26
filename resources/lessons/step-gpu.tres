@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LessonStep" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/lesson_step.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "step-gpu"
+kind = 1
+part_id = "gpu"
+slot_id = "slot-pcie"
+alt_targets = PackedStringArray()
+title = "Видеокарта"
+task = "Финальный шаг! Выбери на лотке видеокарту — самую большую деталь с двумя вентиляторами — и перетащи её к корпусу."
+place_task = "Тяни видеокарту к подсвеченному слоту PCIe x16 на плате внутри корпуса — она вставится в слот."
+wrong_part = "Нужна видеокарта — длинная деталь с двумя вентиляторами на лотке. Она подсвечена."
+wrong_slot = "Видеокарта вставляется в длинный слот PCIe x16 — он подсвечен на плате."
+extra_hint = "Видеокарта — самый прожорливый компонент: до 220 Вт. Её планка с разъёмами крепится к задней стенке корпуса, а питание 8-pin приходит напрямую от БП."
+focus = Vector3(19, -0.5, 2.5)
+cam = Vector3(3, 9, 28)

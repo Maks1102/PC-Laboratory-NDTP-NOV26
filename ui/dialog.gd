@@ -26,6 +26,7 @@ func show_dialog(title: String, body: String, buttons: Array) -> void:
 			button.theme_type_variation = "PrimaryButton"
 		var id := str(spec.get("id", "ok"))
 		button.set_meta("dialog_id", id)
+		button.pressed.connect(AudioManager.play_click)
 		button.pressed.connect(func() -> void:
 			visible = false
 			button_pressed.emit(id))

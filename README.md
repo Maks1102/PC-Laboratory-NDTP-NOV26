@@ -17,7 +17,8 @@
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_state_machine.tscn   # стейт-машина
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . --script res://tests/check_resources.gd  # все .tres
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_interaction.tscn     # клик/драг через симуляцию мыши
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/test_ui_flow.tscn                             # E2E: UI от приветствия до POST и сброса
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_ui_flow.tscn         # E2E: UI от приветствия до POST и сброса
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/gdunit --ignoreHeadlessMode  # юнит-тесты gdUnit4 (23 шт.)
 
 # скриншоты всех 10 состояний сборки (нужен дисплей/GPU)
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/screenshot.tscn   # → tests/screenshots/*.png
@@ -50,6 +51,7 @@ scripts/autoload/
   event_bus.gd          # сигналы: part_installed, step_changed, part_rejected, assembly_completed,
                         # phase_changed, info_opened, library_requested, power_on, power_off
   game_state.gd         # стейт-машина: Phase EXPLORE→SELECT→PLACE→CARD, шаги 0–7, busy 6 с, is_dragging, таймер урока
+  audio_manager.gd      # звук: шины SFX/Music, плейсхолдеры-генераторы + подмена файлами из assets/audio/
 resources/
   lesson_step.gd        # Resource: шаг урока (порт lessons.ts)
   part_info.gd          # Resource: карточка знаний (порт parts.ts)
@@ -71,6 +73,10 @@ ui/
   post_overlay.tscn/.gd       # POST: строки самопроверки, beep (880 Гц, синус в коде), затем поздравление
 assets/models/*.glb     # 10 моделей из веб-версии (см. models/glb/README.md)
 assets/fonts/           # NotoSans-Regular.ttf / NotoSans-Bold.ttf (OFL, кириллица)
+assets/audio/           # сюда кладутся пользовательские звуки (см. assets/audio/README.md); без файлов звучат плейсхолдеры
+addons/gdUnit4/         # фреймворк юнит-тестов (плагин, headless через GdUnitCmdTool.gd)
+docs/REGRESSION.md      # чек-лист ручной регрессии (п.8 TODO)
+.github/workflows/ci.yml # CI: import + все тесты на каждый push
 tests/
   test_state_machine.tscn/.gd  # прогон всех 8 шагов, ошибок, drag, reset
   test_interaction.tscn/.gd    # реальные события мыши: клик, drag, возврат на лоток, установка CPU в сокет
@@ -116,7 +122,6 @@ reset() → полный сброс на шаг 0
 
 ## Дальше по TODO
 
-- **M3** (пп. 7–8): звук, gdUnit4, CI
 - **M4** (п. 9): экспорт Web/десктоп
 
 ## Вехи
@@ -124,3 +129,4 @@ reset() → полный сброс на шаг 0
 - **M0** (пп. 0–1): каркас, автолоады, стейт-машина, ресурсы — выполнено
 - **M1** (пп. 2–4): сцена, камера, drag & drop — выполнено
 - **M2** (пп. 5–6): UI (панель, карточки, диалоги), финальная анимация включения — выполнено
+- **M3** (пп. 7–8): звук (AudioManager, шины SFX/Music), gdUnit4-тесты, чек-лист регрессии, CI (.github/workflows/ci.yml) — выполнено; ⚠️ CI заработает после push в GitHub

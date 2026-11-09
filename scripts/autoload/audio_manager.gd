@@ -62,12 +62,11 @@ func _stop_fan() -> void:
 		_fan_player.stop()
 
 func _on_part_installed(_part_id: String) -> void:
+	# Только «щелчок» установки; «дзынь»-beep — только при включении в финале (post_overlay).
 	play_sfx("snap")
-	await get_tree().create_timer(0.18).timeout
-	play_sfx("power", -2.0)  # короткое «дзынь» установки
 
 func _on_power_on() -> void:
-	play_sfx("snap", 4.0)  # «щелчок» реле при включении
+	play_sfx("power", 2.0)  # звук включения (только после полной сборки)
 	start_fan_hum(Vector3(14.0, 10.0, 20.0))  # корпус на полу
 
 func _on_power_off() -> void:

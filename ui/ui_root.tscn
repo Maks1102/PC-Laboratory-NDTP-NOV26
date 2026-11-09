@@ -1,0 +1,33 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://ui/ui_root.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://ui/lesson_panel.tscn" id="3_panel"]
+[ext_resource type="PackedScene" path="res://ui/part_card.tscn" id="4_card"]
+[ext_resource type="PackedScene" path="res://ui/toast.tscn" id="5_toast"]
+[ext_resource type="PackedScene" path="res://ui/dialog.tscn" id="6_dialog"]
+[ext_resource type="PackedScene" path="res://ui/completion_screen.tscn" id="7_completion"]
+[ext_resource type="PackedScene" path="res://ui/post_overlay.tscn" id="8_post"]
+[ext_resource type="PackedScene" path="res://ui/library.tscn" id="9_library"]
+
+[node name="UIRoot" type="Control"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="LessonPanel" parent="." instance=ExtResource("3_panel")]
+
+[node name="PartCard" parent="." instance=ExtResource("4_card")]
+
+[node name="Toast" parent="." instance=ExtResource("5_toast")]
+
+[node name="Dialog" parent="." instance=ExtResource("6_dialog")]
+
+[node name="CompletionScreen" parent="." instance=ExtResource("7_completion")]
+
+[node name="PostOverlay" parent="." instance=ExtResource("8_post")]
+
+[node name="Library" parent="." instance=ExtResource("9_library")]

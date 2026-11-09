@@ -1,37 +1,115 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=45 format=3]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/part.gd" id="2_part"]
+[ext_resource type="Script" path="res://scripts/snap_zone.gd" id="3_zone"]
+[ext_resource type="Script" path="res://scripts/hint_zone.gd" id="4_hint"]
+[ext_resource type="Script" path="res://scripts/camera_rig.gd" id="5_cam"]
+[ext_resource type="PackedScene" path="res://assets/models/bench.glb" id="6_bench"]
+[ext_resource type="PackedScene" path="res://assets/models/mobo-stand.glb" id="7_stand"]
+[ext_resource type="PackedScene" path="res://assets/models/mobo.glb" id="8_mobo"]
+[ext_resource type="PackedScene" path="res://assets/models/cpu.glb" id="9_cpu"]
+[ext_resource type="PackedScene" path="res://assets/models/cooler.glb" id="10_cooler"]
+[ext_resource type="PackedScene" path="res://assets/models/ram.glb" id="11_ram"]
+[ext_resource type="PackedScene" path="res://assets/models/ssd.glb" id="12_ssd"]
+[ext_resource type="PackedScene" path="res://assets/models/psu.glb" id="13_psu"]
+[ext_resource type="PackedScene" path="res://assets/models/gpu.glb" id="14_gpu"]
+[ext_resource type="PackedScene" path="res://assets/models/case.glb" id="15_case"]
+[ext_resource type="Resource" path="res://resources/parts/mobo.tres" id="16_pmobo"]
+[ext_resource type="Resource" path="res://resources/parts/cpu.tres" id="17_pcpu"]
+[ext_resource type="Resource" path="res://resources/parts/cooler.tres" id="18_pcooler"]
+[ext_resource type="Resource" path="res://resources/parts/ram.tres" id="19_pram"]
+[ext_resource type="Resource" path="res://resources/parts/ssd.tres" id="20_pssd"]
+[ext_resource type="Resource" path="res://resources/parts/psu.tres" id="21_ppsu"]
+[ext_resource type="Resource" path="res://resources/parts/gpu.tres" id="22_pgpu"]
+[ext_resource type="PackedScene" path="res://ui/ui_root.tscn" id="23_uiroot"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
 background_color = Color(0.93, 0.95, 0.92, 1)
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.55
+ambient_light_energy = 0.35
 tonemap_mode = 2
 ssao_enabled = true
 glow_enabled = true
-glow_intensity = 0.3
+glow_intensity = 0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
-size = Vector3(34, 0.2, 22)
+size = Vector3(100, 0.2, 80)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wall_back"]
-size = Vector3(34, 12, 0.3)
+size = Vector3(100, 40, 0.3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wall_left"]
-size = Vector3(0.3, 12, 22)
+size = Vector3(0.3, 40, 80)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
 albedo_color = Color(0.85, 0.87, 0.83, 1)
 roughness = 0.95
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
 albedo_color = Color(0.91, 0.93, 0.89, 1)
 roughness = 1.0
 
-[sub_resource type="BoxMesh" id="BoxMesh_ceiling_beam"]
-size = Vector3(34, 0.4, 0.4)
+[sub_resource type="BoxMesh" id="BoxMesh_beam"]
+size = Vector3(100, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tray"]
+size = Vector3(7.5, 0.5, 21.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tray"]
+albedo_color = Color(0.22, 0.24, 0.3, 1)
+roughness = 0.8
+metallic = 0.2
+
+[sub_resource type="BoxShape3D" id="Shape_floor"]
+size = Vector3(100, 0.2, 80)
+
+[sub_resource type="BoxShape3D" id="Shape_wall_back"]
+size = Vector3(100, 40, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_wall_left"]
+size = Vector3(0.3, 40, 80)
+
+[sub_resource type="BoxShape3D" id="Shape_benchtop"]
+size = Vector3(34, 1.2, 22)
+
+[sub_resource type="BoxShape3D" id="Shape_benchshelf"]
+size = Vector3(11.4, 0.22, 13.2)
+
+[sub_resource type="BoxShape3D" id="Shape_tray"]
+size = Vector3(7.5, 0.5, 21.5)
+
+[sub_resource type="BoxShape3D" id="Shape_case_bottom"]
+size = Vector3(8.0, 0.3, 16.68)
+
+[sub_resource type="BoxShape3D" id="Shape_case_back"]
+size = Vector3(8.0, 17.2, 0.3)
+
+[sub_resource type="BoxShape3D" id="Shape_case_right"]
+size = Vector3(0.3, 17.2, 16.68)
+
+[sub_resource type="BoxShape3D" id="Shape_case_top"]
+size = Vector3(8.0, 0.3, 16.68)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_cpu"]
+size = Vector3(3.0, 2.5, 3.0)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_ram"]
+size = Vector3(3.5, 3.0, 6.0)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_m2"]
+size = Vector3(4.0, 2.5, 3.0)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_pcie"]
+size = Vector3(7.0, 4.0, 4.0)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_case"]
+size = Vector3(7.0, 13.0, 11.0)
+
+[sub_resource type="BoxShape3D" id="Shape_slot_psu"]
+size = Vector3(5.0, 3.5, 4.5)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
@@ -53,35 +131,269 @@ shadow_enabled = false
 [node name="Room" type="Node3D" parent="."]
 
 [node name="Floor" type="MeshInstance3D" parent="Room"]
-position = Vector3(0, -0.1, 0)
+position = Vector3(0, -0.1, 8)
 mesh = SubResource("BoxMesh_floor")
-surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+surface_material_override/0 = SubResource("Mat_floor")
 
 [node name="BackWall" type="MeshInstance3D" parent="Room"]
-position = Vector3(0, 6, -11)
+position = Vector3(0, 20, -28)
 mesh = SubResource("BoxMesh_wall_back")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+surface_material_override/0 = SubResource("Mat_wall")
 
 [node name="LeftWall" type="MeshInstance3D" parent="Room"]
-position = Vector3(-17, 6, 0)
+position = Vector3(-49, 20, 8)
 mesh = SubResource("BoxMesh_wall_left")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+surface_material_override/0 = SubResource("Mat_wall")
 
 [node name="CeilingBeam" type="MeshInstance3D" parent="Room"]
-position = Vector3(0, 11.8, -10.6)
-mesh = SubResource("BoxMesh_ceiling_beam")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+position = Vector3(0, 39, -27.5)
+mesh = SubResource("BoxMesh_beam")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="RoomCollision" type="StaticBody3D" parent="Room"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="FloorShape" type="CollisionShape3D" parent="Room/RoomCollision"]
+position = Vector3(0, -0.1, 8)
+shape = SubResource("Shape_floor")
+
+[node name="BackWallShape" type="CollisionShape3D" parent="Room/RoomCollision"]
+position = Vector3(0, 20, -28)
+shape = SubResource("Shape_wall_back")
+
+[node name="LeftWallShape" type="CollisionShape3D" parent="Room/RoomCollision"]
+position = Vector3(-49, 20, 8)
+shape = SubResource("Shape_wall_left")
 
 [node name="Bench" type="Node3D" parent="."]
 
+[node name="BenchModel" parent="Bench" instance=ExtResource("6_bench")]
+
+[node name="BenchCollision" type="StaticBody3D" parent="Bench"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="BenchTopShape" type="CollisionShape3D" parent="Bench/BenchCollision"]
+position = Vector3(0, 8.59, 0)
+shape = SubResource("Shape_benchtop")
+
+[node name="BenchShelfShape" type="CollisionShape3D" parent="Bench/BenchCollision"]
+position = Vector3(10.8, 9.31, 3.2)
+shape = SubResource("Shape_benchshelf")
+
 [node name="Tray" type="Node3D" parent="."]
 
+[node name="TrayMesh" type="MeshInstance3D" parent="Tray"]
+position = Vector3(-13.2, 9.44, 0.5)
+mesh = SubResource("BoxMesh_tray")
+surface_material_override/0 = SubResource("Mat_tray")
+
+[node name="TrayCollision" type="StaticBody3D" parent="Tray"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="TrayShape" type="CollisionShape3D" parent="Tray/TrayCollision"]
+position = Vector3(-13.2, 9.44, 0.5)
+shape = SubResource("Shape_tray")
+
+[node name="Stand" parent="." instance=ExtResource("7_stand")]
+position = Vector3(-3.3, 9.14, -1)
+
 [node name="Case" type="Node3D" parent="."]
+position = Vector3(14, 0, 20)
+
+[node name="CaseModel" parent="Case" instance=ExtResource("15_case")]
+
+[node name="CaseCollision" type="StaticBody3D" parent="Case"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CaseBottomShape" type="CollisionShape3D" parent="Case/CaseCollision"]
+position = Vector3(0, 0.65, 0)
+shape = SubResource("Shape_case_bottom")
+
+[node name="CaseBackShape" type="CollisionShape3D" parent="Case/CaseCollision"]
+position = Vector3(0, 9.4, -8.1)
+shape = SubResource("Shape_case_back")
+
+[node name="InteriorLight" type="OmniLight3D" parent="Case"]
+position = Vector3(2.5, 10.5, 2.0)
+light_energy = 0.0
+omni_range = 15.0
+light_color = Color(1, 0.93, 0.82, 1)
+
+[node name="CaseRightShape" type="CollisionShape3D" parent="Case/CaseCollision"]
+position = Vector3(3.85, 9.4, 0)
+shape = SubResource("Shape_case_right")
+
+[node name="CaseTopShape" type="CollisionShape3D" parent="Case/CaseCollision"]
+position = Vector3(0, 17.85, 0)
+shape = SubResource("Shape_case_top")
+
+[node name="SlotCase" type="Area3D" parent="Case"]
+position = Vector3(2.5, 11.4, -2.0)
+script = ExtResource("3_zone")
+slot_id = "slot-case"
+snap_radius = 6.0
+target_parent = NodePath("..")
+snap_position = Vector3(3.305, 11.4, -2.0)
+snap_rotation = Vector3(1.5708, 3.14159, -1.5708)
+
+[node name="SlotCaseShape" type="CollisionShape3D" parent="Case/SlotCase"]
+shape = SubResource("Shape_slot_case")
+
+[node name="SlotPsu" type="Area3D" parent="Case"]
+position = Vector3(0, 1.9, -5.8)
+script = ExtResource("3_zone")
+slot_id = "slot-psu"
+snap_radius = 5.0
+target_parent = NodePath("..")
+snap_position = Vector3(0, 0.8, -5.8)
+snap_rotation = Vector3(0, 0, 0)
+
+[node name="SlotPsuShape" type="CollisionShape3D" parent="Case/SlotPsu"]
+shape = SubResource("Shape_slot_psu")
+
+[node name="HintCase" type="Node3D" parent="Case"]
+position = Vector3(2.5, 11.4, -2.0)
+script = ExtResource("4_hint")
+box_size = Vector3(1.7, 12.4, 9.7)
+hide_after_part = "mobo"
+show_on_steps = PackedStringArray("step-mobo-case")
+
+[node name="HintPsu" type="Node3D" parent="Case"]
+position = Vector3(0, 1.9, -5.8)
+script = ExtResource("4_hint")
+box_size = Vector3(4.4, 2.5, 3.8)
+hide_after_part = "psu"
+show_on_steps = PackedStringArray("step-psu")
 
 [node name="Parts" type="Node3D" parent="."]
 
+[node name="Mobo" type="Node3D" parent="Parts"]
+position = Vector3(-3.3, 10.54, -1)
+script = ExtResource("2_part")
+part_id = "mobo"
+info = ExtResource("16_pmobo")
+home_position = Vector3(-3.3, 10.54, -1)
+home_rotation = Vector3(0, 0, 0)
+
+[node name="MoboModel" parent="Parts/Mobo" instance=ExtResource("8_mobo")]
+
+[node name="SlotCpu" type="Area3D" parent="Parts/Mobo"]
+position = Vector3(-1.875, 0.57, -1.21)
+script = ExtResource("3_zone")
+slot_id = "slot-cpu"
+snap_radius = 2.0
+target_parent = NodePath("..")
+snap_position = Vector3(-1.875, 0.57, -1.21)
+snap_rotation = Vector3(0, 0, 0)
+
+[node name="SlotCpuShape" type="CollisionShape3D" parent="Parts/Mobo/SlotCpu"]
+shape = SubResource("Shape_slot_cpu")
+
+[node name="SlotRam" type="Area3D" parent="Parts/Mobo"]
+position = Vector3(2.4, 0.35, -0.81)
+script = ExtResource("3_zone")
+slot_id = "slot-ram"
+snap_radius = 2.5
+target_parent = NodePath("..")
+snap_position = Vector3(2.4, 0.35, -0.81)
+snap_rotation = Vector3(0, 0, 0)
+
+[node name="SlotRamShape" type="CollisionShape3D" parent="Parts/Mobo/SlotRam"]
+shape = SubResource("Shape_slot_ram")
+
+[node name="SlotM2" type="Area3D" parent="Parts/Mobo"]
+position = Vector3(0.725, 0.47, 3.69)
+script = ExtResource("3_zone")
+slot_id = "slot-m2"
+snap_radius = 2.0
+target_parent = NodePath("..")
+snap_position = Vector3(0.725, 0.47, 3.69)
+snap_rotation = Vector3(0, 0, 0)
+
+[node name="SlotM2Shape" type="CollisionShape3D" parent="Parts/Mobo/SlotM2"]
+shape = SubResource("Shape_slot_m2")
+
+[node name="SlotPcie" type="Area3D" parent="Parts/Mobo"]
+position = Vector3(-1.475, 0.65, 2.39)
+script = ExtResource("3_zone")
+slot_id = "slot-pcie"
+snap_radius = 4.0
+target_parent = NodePath("..")
+snap_position = Vector3(-0.975, 0.37, 2.39)
+snap_rotation = Vector3(0, 0, 0)
+
+[node name="SlotPcieShape" type="CollisionShape3D" parent="Parts/Mobo/SlotPcie"]
+shape = SubResource("Shape_slot_pcie")
+
+[node name="Cpu" type="Node3D" parent="Parts"]
+position = Vector3(-15.5, 9.69, -9)
+script = ExtResource("2_part")
+part_id = "cpu"
+info = ExtResource("17_pcpu")
+home_position = Vector3(-15.5, 9.69, -9)
+home_rotation = Vector3(0, 0, 0)
+
+[node name="CpuModel" parent="Parts/Cpu" instance=ExtResource("9_cpu")]
+
+[node name="Cooler" type="Node3D" parent="Parts"]
+position = Vector3(-15.3, 9.69, -2.3)
+script = ExtResource("2_part")
+part_id = "cooler"
+info = ExtResource("18_pcooler")
+home_position = Vector3(-15.3, 9.69, -2.3)
+home_rotation = Vector3(0, 0, 0)
+
+[node name="CoolerModel" parent="Parts/Cooler" instance=ExtResource("10_cooler")]
+
+[node name="Ram" type="Node3D" parent="Parts"]
+position = Vector3(-15.0, 9.69, 1.9)
+script = ExtResource("2_part")
+part_id = "ram"
+info = ExtResource("19_pram")
+home_position = Vector3(-15.0, 9.69, 1.9)
+home_rotation = Vector3(0, 0, 0)
+
+[node name="RamModel" parent="Parts/Ram" instance=ExtResource("11_ram")]
+
+[node name="Ssd" type="Node3D" parent="Parts"]
+position = Vector3(-15.5, 9.69, -5.8)
+rotation = Vector3(0, 1.5708, 0)
+script = ExtResource("2_part")
+part_id = "ssd"
+info = ExtResource("20_pssd")
+home_position = Vector3(-15.5, 9.69, -5.8)
+home_rotation = Vector3(0, 1.5708, 0)
+
+[node name="SsdModel" parent="Parts/Ssd" instance=ExtResource("12_ssd")]
+
+[node name="Psu" type="Node3D" parent="Parts"]
+position = Vector3(-11.5, 9.69, 5.0)
+script = ExtResource("2_part")
+part_id = "psu"
+info = ExtResource("21_ppsu")
+home_position = Vector3(-11.5, 9.69, 5.0)
+home_rotation = Vector3(0, 0, 0)
+
+[node name="PsuModel" parent="Parts/Psu" instance=ExtResource("13_psu")]
+
+[node name="Gpu" type="Node3D" parent="Parts"]
+position = Vector3(-11.3, 9.69, -3.5)
+rotation = Vector3(0, 1.5708, 0)
+script = ExtResource("2_part")
+part_id = "gpu"
+info = ExtResource("22_pgpu")
+home_position = Vector3(-11.3, 9.69, -3.5)
+home_rotation = Vector3(0, 1.5708, 0)
+
+[node name="GpuModel" parent="Parts/Gpu" instance=ExtResource("14_gpu")]
+
 [node name="CameraRig" type="Node3D" parent="."]
 position = Vector3(0, 0, 0)
+script = ExtResource("5_cam")
 
 [node name="Yaw" type="Node3D" parent="CameraRig"]
 
@@ -92,5 +404,7 @@ rotation = Vector3(-0.35, 0, 0)
 position = Vector3(0, 0, 16)
 fov = 55.0
 near = 0.1
+far = 500.0
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UI" parent="UILayer" instance=ExtResource("23_uiroot")]

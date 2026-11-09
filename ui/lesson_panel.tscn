@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/lesson_panel.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+
+[node name="LessonPanel" type="PanelContainer"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 436.0
+offset_bottom = 320.0
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StepBadge" type="PanelContainer" parent="Margin/VBox/HeaderRow"]
+layout_mode = 2
+theme_type_variation = "Chip"
+
+[node name="BadgeLabel" type="Label" parent="Margin/VBox/HeaderRow/StepBadge"]
+layout_mode = 2
+text = "Шаг 1/8"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "..."
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.1, 0.12, 0.2, 1)
+vertical_alignment = 1
+
+[node name="ProgressDots" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TaskLabel" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 96)
+text = "..."
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.2, 0.22, 0.3, 1)
+
+[node name="HintPanel" type="PanelContainer" parent="Margin/VBox"]
+layout_mode = 2
+visible = false
+
+[node name="HintLabel" type="Label" parent="Margin/VBox/HintPanel"]
+layout_mode = 2
+text = ""
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.45, 0.32, 0.05, 1)
+
+[node name="ButtonsRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HintButton" type="Button" parent="Margin/VBox/ButtonsRow"]
+layout_mode = 2
+text = "Подсказка"
+
+[node name="LibraryButton" type="Button" parent="Margin/VBox/ButtonsRow"]
+layout_mode = 2
+text = "Детали"
+
+[node name="ResetButton" type="Button" parent="Margin/VBox/ButtonsRow"]
+layout_mode = 2
+theme_type_variation = "GhostButton"
+text = "Заново"

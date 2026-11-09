@@ -5,3 +5,9 @@
 # Экспорт-артефакты
 /export/
 *.tmp
+
+# Screenshots (generated visual regression artifacts)
+tests/screenshots/
+
+# gdUnit4 reports
+reports/

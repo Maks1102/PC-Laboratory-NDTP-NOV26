@@ -180,6 +180,25 @@ func drag_start(part_id: String) -> void:
 func drag_placed(part_id: String) -> void:
 	complete_install(part_id)
 
+## Отпускание драга над слотом: валидный слот → установка (это часть drag,
+## busy не должен блокировать), неверный → ошибка и возврат на лоток.
+func drag_dropped(slot_id: String) -> void:
+	if not started or finished or phase != Phase.PLACE:
+		return
+	if step().kind != LessonStep.Kind.INSTALL:
+		return
+	if step().slot_id == slot_id:
+		complete_install(step().part_id)
+		return
+	# Неверный слот: как drag_cancelled, но с текстом wrong_slot.
+	set_busy(false)
+	is_dragging = false
+	selected = ""
+	phase = Phase.SELECT
+	EventBus.part_rejected.emit(
+		step().wrong_slot if not step().wrong_slot.is_empty()
+		else tr("Это не тот слот — ориентируйся на подсветку."))
+
 func drag_cancelled() -> void:
 	set_busy(false)
 	is_dragging = false

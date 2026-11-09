@@ -5,3 +5,6 @@
 # Экспорт-артефакты
 /export/
 *.tmp
+
+# Screenshots (generated visual regression artifacts)
+tests/screenshots/

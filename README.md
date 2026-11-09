@@ -1,40 +1,23 @@
 # ПК-Лаборатория (Godot)
 
-Обучающий симулятор сборки ПК — порт WebGL-версии ([pc-anatomy-3d](../pc-anatomy-3d), Next.js 16 + Three.js) на **Godot 4.7**.
+Обучающий симулятор сборки ПК на **Godot 4.7**.
 
 8 шагов сборки (мат. плата → процессор → кулер → ОЗУ → M.2 SSD → плата в корпус → БП → видеокарта), двухфазный геймплей `explore → install`, орбитальная камера, карточки знаний. Прогресс не сохраняется (по ТЗ).
 
 ## Запуск
 
-```powershell
-# редактор
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path .
+Открываем Godot -> Импортируем проект -> F6
 
-# headless-импорт (нужен после первого клонирования)
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . --import
-
-# тесты
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_state_machine.tscn   # стейт-машина
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . --script res://tests/check_resources.gd  # все .tres
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_interaction.tscn     # клик/драг через симуляцию мыши
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_ui_flow.tscn         # E2E: UI от приветствия до POST и сброса
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/gdunit --ignoreHeadlessMode  # юнит-тесты gdUnit4 (23 шт.)
-
-# скриншоты всех 10 состояний сборки (нужен дисплей/GPU)
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/screenshot.tscn   # → tests/screenshots/*.png
-& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/ui_shots.tscn      # экраны UI: карточка, completion, POST, поздравление, тост
-```
-
-## Ключевые решения (п.0 TODO)
+## Ключевые решения
 
 | Решение | Выбор |
 |---|---|
 | Версия | Godot **4.7.2** стабильная |
-| Язык | **GDScript** (веб-экспорт P0 — C# не экспортируется в Web) |
-| Рендерер | **Forward+** (+ Jolt Physics) — выбрано владельцем проекта; десктоп-цель |
+| Язык | **GDScript** |
+| Рендерер | **Forward+** (+ Jolt Physics); десктоп-цель |
 | Структура | `scenes/`, `scripts/`, `resources/`, `ui/`, `assets/{models,textures,audio,fonts}`, `tests/` |
-| Модели | glTF `.glb` → импорт Godot, лежат в `assets/models/` (исходные FBX — в `models/fbx/`) |
-| Локализация | все строки UI через `tr()`, пока только русский |
+| Модели | glTF `.glb` → импорт Godot, лежат в `assets/models/` |
+| Локализация | все строки UI через `tr()` |
 
 ## Структура
 
@@ -95,7 +78,7 @@ tests/
 start() → шаг 0 (EXPLORE, клик по детали → CARD) → next_step()
 install-шаги: SELECT (выбор детали) → PLACE (перетаскивание/клик по слоту) → CARD → next_step()
 ошибки: wrong_part / wrong_slot → сигнал part_rejected, фаза не меняется
-финал: finished=true → assembly_completed (анимация включения — M2)
+финал: finished=true → assembly_completed (анимация включения)
 reset() → полный сброс на шаг 0
 ```
 
@@ -109,24 +92,3 @@ reset() → полный сброс на шаг 0
 | 2 | 2 | Пикер-области деталей (raycast выбора — маска 2) |
 | 3 | 4 | Активный слот текущего шага (raycast drag — маска 4) |
 | 4 | 8 | Неактивные слоты (только кликовый raycast, маска 12 = 4+8) |
-
-## Отклонения от WEB-версии / TODO (осознанные)
-
-- **Детали — не наследники `Part.tscn`**, а узлы-`Part` инлайново в `Main.tscn` со скриптом `part.gd` (проще для ручной правки раскладки; пикер-область генерируется автоматически по габаритам .glb).
-- **Перетаскивание — по лучу камеры** (деталь едет за курсором на фиксированном удалении и «падает» на подсвеченный слот), а не по горизонтальной плоскости: иначе PSU в отсеке у дна корпуса было бы невозможно дотянуть.
-- **Слои вместо `intersect_ray`-фильтра**: неактивные зоны невидимы для drag-лучей (drag бьёт только активный слот).
-- **`Part`-ареа и все зоны** создаются/настраиваются кодом (`part.gd::_add_default_area`, `snap_zone.gd::_ready`) — сцена остаётся читаемой.
-- **Лоток и комната — из примитивов**, отдельного `.glb` под лоток в веб-версии не было.
-- **`focus`/`cam` в `resources/lessons/*.tres` переписаны** под новую раскладку сцены (веб-координаты не соответствуют моделям 1:1).
-- **GPU ставится «вертикально»** (длина вдоль вертикали, вентиляторы к стеклу) — требование геометрии слота PCIe в модели: слот параллелен задней кромке.
-
-## Дальше по TODO
-
-- **M4** (п. 9): экспорт Web/десктоп
-
-## Вехи
-
-- **M0** (пп. 0–1): каркас, автолоады, стейт-машина, ресурсы — выполнено
-- **M1** (пп. 2–4): сцена, камера, drag & drop — выполнено
-- **M2** (пп. 5–6): UI (панель, карточки, диалоги), финальная анимация включения — выполнено
-- **M3** (пп. 7–8): звук (AudioManager, шины SFX/Music), gdUnit4-тесты, чек-лист регрессии, CI (.github/workflows/ci.yml) — выполнено; ⚠️ CI заработает после push в GitHub

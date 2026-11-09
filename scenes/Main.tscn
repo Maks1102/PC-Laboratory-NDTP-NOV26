@@ -294,12 +294,12 @@ snap_rotation = Vector3(0, 0, 0)
 shape = SubResource("Shape_slot_cpu")
 
 [node name="SlotRam" type="Area3D" parent="Parts/Mobo"]
-position = Vector3(2.4, 1.85, -0.81)
+position = Vector3(2.4, 0.35, -0.81)
 script = ExtResource("3_zone")
 slot_id = "slot-ram"
 snap_radius = 2.5
 target_parent = NodePath("..")
-snap_position = Vector3(2.4, 1.85, -0.81)
+snap_position = Vector3(2.4, 0.35, -0.81)
 snap_rotation = Vector3(0, 0, 0)
 
 [node name="SlotRamShape" type="CollisionShape3D" parent="Parts/Mobo/SlotRam"]

@@ -5,12 +5,14 @@ extends Node3D
 
 @export var box_size: Vector3 = Vector3(6, 10, 8)
 @export var hide_after_part: String = ""  # part_id: скрыть после part_installed
+@export var show_on_steps: PackedStringArray = []  # ids шагов, на которых зона видна (пусто — всегда)
 @export var dash_len := 0.55
 @export var gap_len := 0.35
 @export var line_width := 0.09
 
 var _mesh_instance: MeshInstance3D
 var _material: StandardMaterial3D
+var _hidden_by_install := false
 
 func _ready() -> void:
 	_mesh_instance = MeshInstance3D.new()
@@ -25,11 +27,22 @@ func _ready() -> void:
 	add_child(_mesh_instance)
 	_rebuild()
 	EventBus.part_installed.connect(_on_part_installed)
-	set_visible(true)
+	EventBus.step_changed.connect(func(_step_id: String) -> void: _refresh())
+	EventBus.phase_changed.connect(func(_phase: int) -> void: _refresh())
+	_refresh()
 
 func _on_part_installed(part_id: String) -> void:
 	if part_id == hide_after_part:
-		visible = false
+		_hidden_by_install = true
+		_refresh()
+
+## Зона видна только на своих шагах и пока деталь не установлена.
+func _refresh() -> void:
+	# Полный сброс: детали «возвращаются на лоток» — снова показываем зоны своих шагов.
+	if GameState.step().id == "step-mobo" and GameState.installed.is_empty():
+		_hidden_by_install = false
+	var on_step := show_on_steps.is_empty() or GameState.step().id in show_on_steps
+	visible = on_step and not _hidden_by_install and not GameState.finished
 
 func _rebuild() -> void:
 	var im := ImmediateMesh.new()

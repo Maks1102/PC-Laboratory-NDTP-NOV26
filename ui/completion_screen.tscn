@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/completion_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+
+[node name="CompletionScreen" type="Control"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.04, 0.07, 0.12, 0.62)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(480, 0)
+theme_type_variation = "Card"
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="CheckCircle" type="Panel" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(96, 96)
+size_flags_horizontal = 4
+
+[node name="CheckLabel" type="Label" parent="Center/Panel/Margin/VBox/CheckCircle"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 56
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Сборка завершена!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.08, 0.1, 0.18, 1)
+
+[node name="Subtitle" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Все 8 шагов пройдены: плата, процессор, кулер, память, SSD, плата в корпусе, БП и видеокарта."
+autowrap_mode = 3
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.3, 0.33, 0.42, 1)
+
+[node name="PowerButton" type="Button" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = "PrimaryButton"
+text = "Включить компьютер"
+
+[node name="ResetButton" type="Button" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = "GhostButton"
+text = "Собрать заново без включения"

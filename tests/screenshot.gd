@@ -14,6 +14,12 @@ var _wait := 0
 func _ready() -> void:
 	_main = load("res://scenes/Main.tscn").instantiate()
 	add_child(_main)
+	# Закрываем приветствие: кадры проверяют 3D-раскладку, диалог её заслоняет.
+	var ui := _main.get_node_or_null("UILayer/UI")
+	if ui:
+		var dialog := ui.get_node_or_null("Dialog")
+		if dialog:
+			dialog.visible = false
 	_actions = [
 		["shoot", "01-mobo", 30],
 		["step", null, 0],

@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/toast.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+
+[node name="Toast" type="PanelContainer"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+theme_type_variation = "Toast"
+anchors_preset = 5
+offset_left = 340.0
+offset_top = 560.0
+offset_right = 940.0
+offset_bottom = 610.0
+visible = false
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Icon" type="Label" parent="Row"]
+layout_mode = 2
+text = "⚠"
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(1.0, 0.62, 0.25, 1)
+vertical_alignment = 1
+
+[node name="Message" type="Label" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+autowrap_mode = 3
+theme_override_colors/font_color = Color(1.0, 0.93, 0.78, 1)
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Row"]
+layout_mode = 2
+theme_type_variation = "GhostButton"
+text = "Понятно"
+theme_override_colors/font_color = Color(1.0, 0.93, 0.78, 1)

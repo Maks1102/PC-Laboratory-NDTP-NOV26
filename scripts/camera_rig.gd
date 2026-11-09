@@ -60,8 +60,8 @@ func _on_step_changed(_step_id: String) -> void:
 	focus_on(step.focus, step.cam)
 
 func _on_assembly_completed() -> void:
-	# Финал: камера к собранному ПК (кейс на полу) — задаёт сцена, здесь только сброс фокуса.
-	pass
+	# Финал: отъехать к корпусу на полу для осмотра результата.
+	focus_on(Vector3(14.0, 9.5, 20.0), Vector3(29.5, 13.5, 37.0))
 
 func _unhandled_input(event: InputEvent) -> void:
 	# П.3 P0: во время драга камера полностью игнорирует ввод.

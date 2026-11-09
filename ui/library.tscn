@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/library.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+
+[node name="Library" type="Control"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.04, 0.06, 0.1, 0.55)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(560, 0)
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Библиотека деталей"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.08, 0.1, 0.18, 1)
+
+[node name="CloseButton" type="Button" parent="Center/Panel/Margin/VBox/Header"]
+layout_mode = 2
+theme_type_variation = "GhostButton"
+text = "✕"
+
+[node name="HintLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Нажми на деталь — откроется её карточка."
+theme_override_colors/font_color = Color(0.4, 0.44, 0.52, 1)
+
+[node name="Grid" type="GridContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+columns = 4
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10

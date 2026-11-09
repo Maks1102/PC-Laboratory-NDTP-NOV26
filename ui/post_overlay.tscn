@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/post_overlay.gd" id="1_script"]
+[ext_resource type="Theme" path="res://ui/theme.tres" id="2_theme"]
+
+[node name="PostOverlay" type="Control"]
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="Black" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.01, 0.015, 0.02, 1.0)
+
+[node name="Content" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = 80.0
+offset_right = -90.0
+offset_bottom = -80.0
+
+[node name="Lines" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SkipButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -70.0
+offset_right = -40.0
+offset_bottom = -30.0
+theme_type_variation = "GhostButton"
+text = "Пропустить →"
+theme_override_colors/font_color = Color(0.55, 0.65, 0.75, 1)

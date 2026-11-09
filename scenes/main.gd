@@ -17,12 +17,22 @@ var _drag_part: Part = null
 var _drag_distance := 0.0
 var _pending_zone: SnapZone = null
 var _last_targets := {"parts": [], "slots": []}
+## Финал: вентиляторы и LED корпуса.
+var _fan_rotors: Array[Node3D] = []
+var _fan_speed := 0.0
+var _fan_target := 0.0
+var _led_meshes: Array[MeshInstance3D] = []
+var _led_on := false
+var _led_time := 0.0
 
 func _ready() -> void:
 	_camera = $CameraRig/Yaw/Pitch/Camera3D
 	_collect()
+	_find_case_power_meshes($Case)
 	EventBus.part_installed.connect(_on_part_installed)
 	EventBus.step_changed.connect(_on_step_changed)
+	EventBus.power_on.connect(_on_power_on)
+	EventBus.power_off.connect(_on_power_off)
 	GameState.start()
 	var step := GameState.step()
 	$CameraRig.focus_on(step.focus, step.cam, true)
@@ -41,6 +51,25 @@ func _find_type(n: Node, type, out: Array) -> void:
 		out.append(n)
 	for c in n.get_children():
 		_find_type(c, type, out)
+
+## Ротор = родитель хаба вентилятора (материал …_0h8at); LED = меши с материалом …_yoc3v.
+## Имена материалов при выгрузке из Three.js стабильны; сверху есть запасной вариант по имени узла.
+func _find_case_power_meshes(n: Node) -> void:
+	if n.name in ["95", "75", "55", "35"] and n is Node3D and not _fan_rotors.has(n):
+		_fan_rotors.append(n as Node3D)
+	if n is MeshInstance3D:
+		var mi := n as MeshInstance3D
+		var mat := mi.mesh.surface_get_material(0) if mi.mesh != null and mi.mesh.get_surface_count() > 0 else null
+		if mat != null:
+			var p := mat.resource_path
+			if p.ends_with("_0h8at"):
+				var rotor := mi.get_parent()
+				if rotor is Node3D and not _fan_rotors.has(rotor):
+					_fan_rotors.append(rotor as Node3D)
+			elif p.ends_with("_yoc3v"):
+				_led_meshes.append(mi)
+	for c in n.get_children():
+		_find_case_power_meshes(c)
 
 # --- ввод: пикинг, клик vs драг, перетаскивание ---
 
@@ -175,7 +204,7 @@ func _ray(screen_pos: Vector2, mask: int, areas: bool) -> Dictionary:
 	query.collide_with_bodies = true
 	return get_world_3d().direct_space_state.intersect_ray(query)
 
-# --- реакция на установку (snap + tween + перепривязка) ---
+# --- установка (snap + tween + перепривязка) ---
 
 func _on_part_installed(part_id: String) -> void:
 	var part := _part_by_id(part_id)
@@ -190,11 +219,22 @@ func _on_part_installed(part_id: String) -> void:
 	var parent: Node = zone.get_node_or_null(zone.target_parent)
 	if parent == null or not (parent is Node3D):
 		return
+	# Плата и БП едут в корпус отдельно от верстака/стенда: отвязываем от
+	# текущего родителя ДО твина, сохраняя глобальный трансформ (п.6 TODO).
+	if part.get_parent() != parent:
+		var keep := part.global_transform
+		part.reparent(get_tree().root, false)
+		part.global_transform = keep
 	var snap_local := Transform3D(Basis.from_euler(zone.snap_rotation), zone.snap_position)
 	var target_world: Transform3D = (parent as Node3D).global_transform * snap_local
 	var tw := create_tween()
-	tw.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(part, "global_transform", target_world, 0.45)
+	# Плата и БП — «долгий перелёт», остальные детали — короткий snap.
+	var duration := 0.9 if part_id in ["mobo", "psu"] else 0.45
+	if part_id in ["mobo", "psu"]:
+		tw.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	else:
+		tw.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(part, "global_transform", target_world, duration)
 	# Лёгкий scale-bounce установки (п.6 P1).
 	part.scale = Vector3(1.12, 1.12, 1.12)
 	var tw2 := create_tween()
@@ -246,3 +286,45 @@ func _zone_by_slot(id: String) -> SnapZone:
 		if z.slot_id == id:
 			return z
 	return null
+
+# --- питание (финал: POST, вентиляторы, LED) ---
+
+func _on_power_on() -> void:
+	_fan_target = 11.0
+	_led_on = true
+	for mi in _led_meshes:
+		var base := mi.mesh.surface_get_material(0) as StandardMaterial3D
+		if base == null:
+			continue
+		var m := base.duplicate() as StandardMaterial3D
+		m.emission_enabled = true
+		m.emission = Color(0.25, 1.0, 0.4)
+		m.emission_energy_multiplier = 0.0
+		mi.set_surface_override_material(0, m)
+	var inner := get_node_or_null("Case/InteriorLight")
+	if inner is OmniLight3D:
+		var tw := create_tween()
+		(inner as OmniLight3D).light_energy = 0.0
+		tw.tween_property(inner, "light_energy", 2.4, 1.2)
+
+func _on_power_off() -> void:
+	_fan_target = 0.0
+	_led_on = false
+	for mi in _led_meshes:
+		mi.set_surface_override_material(0, null)  # вернуть исходный материал
+	var inner := get_node_or_null("Case/InteriorLight")
+	if inner is OmniLight3D:
+		(inner as OmniLight3D).light_energy = 0.0
+
+func _process(delta: float) -> void:
+	if not is_equal_approx(_fan_speed, _fan_target):
+		_fan_speed = move_toward(_fan_speed, _fan_target, delta * 5.0)
+		for r in _fan_rotors:
+			r.rotate_z(-_fan_speed * delta if r.global_position.z > 14.0 else _fan_speed * delta)
+	if _led_on:
+		_led_time += delta
+		var k := 1.5 + 0.9 * sin(_led_time * 2.6)
+		for mi in _led_meshes:
+			var m := mi.get_surface_override_material(0) as StandardMaterial3D
+			if m != null:
+				m.emission_energy_multiplier = k

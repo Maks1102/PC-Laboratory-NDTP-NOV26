@@ -10,6 +10,8 @@ extends Control
 func _ready() -> void:
 	theme = load("res://ui/theme.tres")
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Звук клика на всех кнопках, которые уже есть в дереве (динамические — в dialog.gd).
+	_connect_click_sounds(self)
 	# Финал: «Сборка завершена» (с небольшой задержкой, чтобы доиграл твин snap).
 	EventBus.assembly_completed.connect(func() -> void:
 		get_tree().create_timer(0.8).timeout.connect(_completion.show_screen))
@@ -30,6 +32,12 @@ func _ready() -> void:
 		tr("Привет! Я — твой наставник по сборке ПК"),
 		tr("Сейчас ты соберёшь настоящий компьютер с нуля: от материнской платы до видеокарты.\n\nНа каждом шаге я буду подсказывать, что делать. Детали выбираются кликом, ставятся перетаскиванием к подсвеченному пазу. Если ошибёшься — ничего страшного: деталь вернётся на лоток, а я подскажу, что не так.\n\nПоехали!"),
 		[{id = "start", text = tr("Начать сборку"), primary = true}])
+
+func _connect_click_sounds(node: Node) -> void:
+	if node is Button:
+		node.pressed.connect(AudioManager.play_click)
+	for child in node.get_children():
+		_connect_click_sounds(child)
 
 func _show_congratulations() -> void:
 	var elapsed := int(GameState.elapsed_seconds())

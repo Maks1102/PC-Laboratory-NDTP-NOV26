@@ -41,6 +41,7 @@ func _ready() -> void:
 	_base_mat.emission_energy_multiplier = 0.4
 	_mesh.material_override = _base_mat
 	_mesh.position = shape_node.position
+	_mesh.visible = false  # маркер виден только на своём шаге (set_active)
 	add_child(_mesh)
 	# Зона не должна ловить обычные клики-пикинг деталей: свой слой, маска пустая.
 	collision_layer = 8  # неактивный стартовый слой (кликовый raycast)
@@ -75,6 +76,8 @@ func contains_part(p: Part) -> bool:
 func set_active(on: bool) -> void:
 	active = on
 	collision_layer = 4 if on else 8
+	if _mesh != null:
+		_mesh.visible = on  # маркер только на своём шаге сборки
 	if not on:
 		_candidate = null
 		_apply(0.25, 0.12)

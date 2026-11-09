@@ -260,22 +260,25 @@ position = Vector3(2.5, 11.4, -2.0)
 script = ExtResource("4_hint")
 box_size = Vector3(1.7, 12.4, 9.7)
 hide_after_part = "mobo"
+show_on_steps = PackedStringArray("step-mobo-case")
 
 [node name="HintPsu" type="Node3D" parent="Case"]
 position = Vector3(0, 1.9, -5.8)
 script = ExtResource("4_hint")
 box_size = Vector3(4.4, 2.5, 3.8)
 hide_after_part = "psu"
+show_on_steps = PackedStringArray("step-psu")
 
 [node name="Parts" type="Node3D" parent="."]
 
 [node name="Mobo" type="Node3D" parent="Parts"]
 position = Vector3(-3.3, 10.54, -1)
+rotation = Vector3(0, 1.5708, 0)
 script = ExtResource("2_part")
 part_id = "mobo"
 info = ExtResource("16_pmobo")
 home_position = Vector3(-3.3, 10.54, -1)
-home_rotation = Vector3(0, 0, 0)
+home_rotation = Vector3(0, 1.5708, 0)
 
 [node name="MoboModel" parent="Parts/Mobo" instance=ExtResource("8_mobo")]
 

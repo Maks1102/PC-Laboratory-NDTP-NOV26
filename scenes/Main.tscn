@@ -238,7 +238,7 @@ slot_id = "slot-case"
 snap_radius = 6.0
 target_parent = NodePath("..")
 snap_position = Vector3(3.305, 11.4, -2.0)
-snap_rotation = Vector3(0, 3.14159, -1.5708)
+snap_rotation = Vector3(1.5708, 3.14159, -1.5708)
 
 [node name="SlotCaseShape" type="CollisionShape3D" parent="Case/SlotCase"]
 shape = SubResource("Shape_slot_case")
@@ -273,12 +273,11 @@ show_on_steps = PackedStringArray("step-psu")
 
 [node name="Mobo" type="Node3D" parent="Parts"]
 position = Vector3(-3.3, 10.54, -1)
-rotation = Vector3(0, 1.5708, 0)
 script = ExtResource("2_part")
 part_id = "mobo"
 info = ExtResource("16_pmobo")
 home_position = Vector3(-3.3, 10.54, -1)
-home_rotation = Vector3(0, 1.5708, 0)
+home_rotation = Vector3(0, 0, 0)
 
 [node name="MoboModel" parent="Parts/Mobo" instance=ExtResource("8_mobo")]
 

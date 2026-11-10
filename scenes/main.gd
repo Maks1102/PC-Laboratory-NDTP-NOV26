@@ -317,8 +317,8 @@ func _on_power_off() -> void:
 		(inner as OmniLight3D).light_energy = 0.0
 
 func _process(delta: float) -> void:
-	if not is_equal_approx(_fan_speed, _fan_target):
-		_fan_speed = move_toward(_fan_speed, _fan_target, delta * 5.0)
+	_fan_speed = move_toward(_fan_speed, _fan_target, delta * 5.0)
+	if _fan_speed > 0.0:  # вращаем, пока вентиляторы включены (не только при разгоне)
 		for r in _fan_rotors:
 			r.rotate_z(-_fan_speed * delta if r.global_position.z > 14.0 else _fan_speed * delta)
 	if _led_on:

@@ -14,7 +14,7 @@ var _ambience_player: AudioStreamPlayer
 var _fan_player: AudioStreamPlayer3D
 
 func _ready() -> void:
-	for name in ["click", "snap", "error", "success", "power", "ambient", "fan"]:
+	for name in ["click", "snap", "error", "success", "power", "fan"]:
 		var stream := _load_or_make(name)
 		if stream != null:
 			_streams[name] = stream
@@ -73,15 +73,18 @@ func _on_power_off() -> void:
 	_stop_fan()
 
 func _start_ambience() -> void:
-	var stream: AudioStream = _streams.get("ambient")
-	if stream == null:
-		return
-	_ambience_player = AudioStreamPlayer.new()
-	_ambience_player.stream = stream
-	_ambience_player.bus = "Music"  # эмбиент — как «музыка»: тихо и фоном
-	_ambience_player.volume_db = -14.0
-	add_child(_ambience_player)
-	_ambience_player.play()
+	# Фон помещения — только пользовательский файл; синтетический шум отключён.
+	for ext in ["wav", "ogg", "mp3"]:
+		var path := "%s/ambient.%s" % [AUDIO_DIR, ext]
+		if ResourceLoader.exists(path):
+			var stream: AudioStream = load(path)
+			_ambience_player = AudioStreamPlayer.new()
+			_ambience_player.stream = stream
+			_ambience_player.bus = "Music"
+			_ambience_player.volume_db = -14.0
+			add_child(_ambience_player)
+			_ambience_player.play()
+			return
 
 # --- загрузка пользовательских файлов или генерация плейсхолдеров ---
 

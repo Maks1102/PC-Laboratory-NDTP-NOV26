@@ -23,6 +23,8 @@
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/check_fan_spin.tscn                # регрессия: вентиляторы крутятся после включения
 
 # скриншоты всех 10 состояний сборки (нужен дисплей/GPU)
+# ⚠️ каталог tests/screenshots/ в .gitignore и создаётся при первом запуске вручную:
+New-Item -ItemType Directory -Force tests/screenshots | Out-Null
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/screenshot.tscn   # → tests/screenshots/*.png
 & "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/ui_shots.tscn      # экраны UI: карточка, completion, POST, поздравление, тост
 ```

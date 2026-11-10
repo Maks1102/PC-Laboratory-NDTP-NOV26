@@ -8,7 +8,26 @@
 
 Открываем Godot -> Импортируем проект -> F6
 
-## Ключевые решения
+## Тесты и команды (для разработчиков)
+
+```powershell
+# headless-импорт (нужен после первого клонирования)
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . --import
+
+# тесты
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_state_machine.tscn   # стейт-машина
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . --script res://tests/check_resources.gd  # все .tres
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_interaction.tscn     # клик/драг через симуляцию мыши
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/test_ui_flow.tscn         # E2E: UI от приветствия до POST и сброса
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/gdunit --ignoreHeadlessMode  # юнит-тесты gdUnit4 (23 шт.)
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64_console.exe" --headless --path . res://tests/check_fan_spin.tscn                # регрессия: вентиляторы крутятся после включения
+
+# скриншоты всех 10 состояний сборки (нужен дисплей/GPU)
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/screenshot.tscn   # → tests/screenshots/*.png
+& "F:\Programms\Godot\Godot_v4.7.2-stable_win64.exe" --path . res://tests/ui_shots.tscn      # экраны UI: карточка, completion, POST, поздравление, тост
+```
+
+## Ключевые решения (п.0 TODO)
 
 | Решение | Выбор |
 |---|---|
